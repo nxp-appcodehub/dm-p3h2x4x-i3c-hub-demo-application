@@ -1,0 +1,25 @@
+<data:item xmlns:data="data" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="data ../../xsd/alp.xsd" type="demo" format="cmsis" versionSchema="1.0.0" name="p3h2x4x i3c hub demo application" uuid="19e4db8f-84b6-43db-ac1c-42d88435ec72">
+    <display_title>
+        P3H2X4X : I3C hub demo application on FRDM MCXN947 and MCXA153
+    </display_title>
+    <overview>
+        <![CDATA[I3C-Hub connects to a host CPU via I3C/I2C/SMBus bus on one side and connect to multiple peripheral devices on the other side. The hub device generally have two controller ports and up to eight target ports to expand bus connectivity to multiple devices.]]>
+    </overview>
+    <toolchains>
+        <toolchain name="mcux"></toolchain>
+    </toolchains>
+    <families>
+        <family name="mcx"></family>
+    </families>
+    <nxp_compatible_hw>
+        <hw id="FRDM-MCXA153"></hw>
+        <hw id="FRDM-MCXN947"></hw>
+    </nxp_compatible_hw>
+    <peripherals>
+        <peripheral name="i3c"></peripheral>
+        <peripheral name="i2c"></peripheral>
+    </peripherals>
+    <categories>
+        <category name="bridge"></category>
+    </categories>
+</data:item>
