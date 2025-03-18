@@ -999,6 +999,49 @@ static int P3H2x4x_Configure_tp(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configu
 	return ret;
 }
 
+int P3H2x4x_Set_Cp_sel_pin(void){
+
+#if defined(P3H2441) || defined(P3H2841)
+	pGpioDriver->set_pin(&RST_PIN);
+
+#elif defined(P3H2840) || defined(P3H2440)
+	pGpioDriver->clr_pin(&RST_PIN);
+#endif
+
+	return 0;
+}
+
+int P3H2x41_config(D_P3H2x4x_Handle *P3H2x4xDriver){
+
+	 int32_t status;
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, I3C_HUB_CONTROLLER_BUFFER_PAGE,
+			0x69, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, CONTROLLER_PORT_CONF_addr,
+			0x10, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, TARGET_PORT_EN_addr,
+			0x00, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, IO_DS_CONF_addr,
+			0x05, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, HUB_NET_OP_MODE_CONF_addr,
+			0x00, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, VCCIO_VOLTAGE_addr,
+			0x00, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, LDO_EN_PULL_UP_RES_VALUE_addr,
+			0x50, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 status = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, TARGET_HUB_NET_CONN_EN_addr,
+			0x00, 0x00, 0, P3H2x4xDriver->in_i3c_mode);
+
+	 return 0;
+}
+
 
 int P3H2x4x_Configure(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configuration *i3c_hub_config)
 {
@@ -1020,7 +1063,13 @@ int P3H2x4x_Configure(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configuration *i3
 		if (ret)
 			return ret;
 
-	return P3H2x4x_Configure_tp(P3H2x4xDriver, i3c_hub_config);
+	ret = P3H2x4x_Configure_tp(P3H2x4xDriver, i3c_hub_config);
+	if (ret)
+		return ret;
+
+	ret = P3H2x4x_Set_Cp_sel_pin();
+	if (ret)
+		return ret;
 }
 
 int P3H2x4x_UnlockPrtcdReg(D_P3H2x4x_Handle *P3H2x4xDriver){

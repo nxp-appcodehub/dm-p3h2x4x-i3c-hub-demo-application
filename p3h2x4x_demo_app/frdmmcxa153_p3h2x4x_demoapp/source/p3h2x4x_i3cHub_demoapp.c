@@ -154,6 +154,10 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 		}
 		PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
 
+#if (P3H2441 || P3H2841)
+		P3H2x41_config(P3H2x4xDriver);
+#endif
+
 		once_done = 1;
 
 	}
@@ -1367,7 +1371,7 @@ int main(void)
 	P3H2x4x_set_handle(&P3H2x4xDriver);
 	
 reinitialise:
-#ifdef SILICON_A0
+#if SILICON_A0
 	/*Errata fix*/
 	status = P3H2x4x_Initialize(&P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, STATIC_ADDR, 0);
 

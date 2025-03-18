@@ -142,7 +142,7 @@ In I3C Hub folder, select "P3H2x4x_config.h" file and change the Macros as per c
 
     [<img src="./images/image29.png" width="400"/>](image29.png)
 
-6. To test IBI feature, Disable Hub network connections from 'P3H2x4x_config.h" file and also enable the IBI for respective target port to which an external controller is connected. 
+6. To test IBI feature, Disable Hub network connections from 'P3H2x4x_config.h" file and enable the IBI for respective target port to which an external controller is connected.  
 
     [<img src="./images/image26.PNG" width="400"/>](image26.PNG)
 
@@ -150,11 +150,15 @@ In I3C Hub folder, select "P3H2x4x_config.h" file and change the Macros as per c
 
 7. On shield board (P3H2x4x), make sure to keep the J34 and J20 jumper pins OPEN and SHORT the J35 jumper pin. 
 
-8. Make sure to enable "SILICON_A0" macro in the demo application for selecting the AO version of P3H2x4x device. 
+8. Make sure to enable "SILICON_A0" macro in the demo application properties for selecting the AO version of P3H2x4x device.
 
-    [<img src="./images/image30.png" width="400"/>](image30.png)
+    [<img src="./images/image31.png" width="400"/>](image31.png)
 
-9. In P3H2441 and P3H2841 series of shield boards, CP1 should be selected
+9. Make sure to add "P3H2840", "P3H2841", "P3H2440", "P3H2441" Macros in the application properties and enable the respective board which you are using for testing and disable the rest other varients. 
+
+    [<img src="./images/image32.png" width="400"/>](image32.png)
+
+10. In P3H2441 and P3H2841 series of shield boards, CP1 should be selected
 by shorting 2-3 pins of JP9 & JP10 and JP2 & JP3 should be kept open. 
 
 ## 5.Applications overview and test results<a name="applications-overview-and-test-results"></a>
@@ -253,8 +257,9 @@ Enter #14 to write the data
 ## 6. Limitations<a name="Limitations"></a>
 - For the "A0" version of P3H2x4x shield board, IBI is non-functional when HUB network is enabled. 
 - Errata fix needs to be done for "A0" version of P3H2x4x board which is handled using "SILICON_A0" MACRO in the demo application
-- Arduino header of P3H2x4x and MCXA153 are not compatible to each other, we tested all the features using jumper wires but sometimes it performs inconsistently due to loose jumper
-wire connections which may cause failure in some of the test cases and may damage the shield board.
+- I3C pin lines of MCXA153 is not present on its arduino header, so we need to connect it with P3H2x4x using external jumper wires. 
+Due to this, we lowered the baudrates of OD mode to 400KHz and PP mode to 1MHz. 
+CAUTION: Make stable connection and try not to disturb the setup once connected.
 
 ## 7. FAQs<a name="FAQs"></a>
 No FAQs have been identified for this project.
