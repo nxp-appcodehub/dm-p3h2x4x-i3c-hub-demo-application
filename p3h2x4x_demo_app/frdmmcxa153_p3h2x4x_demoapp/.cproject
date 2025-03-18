@@ -106,8 +106,11 @@
 									<listOptionValue builtIn="false" value="PRINTF_ADVANCED_ENABLE=1"/>
 									<listOptionValue builtIn="false" value="SCANF_ADVANCED_ENABLE=1"/>
 									<listOptionValue builtIn="false" value="SCANF_FLOAT_ENABLE=1"/>
-									<listOptionValue builtIn="false" value="P3H2840=1"/>
-									<listOptionValue builtIn="false" value="SILICON_A0"/>
+									<listOptionValue builtIn="false" value="SILICON_A0=1"/>
+									<listOptionValue builtIn="false" value="P3H2841=0"/>
+									<listOptionValue builtIn="false" value="P3H2440=1"/>
+									<listOptionValue builtIn="false" value="P3H2441=0"/>
+									<listOptionValue builtIn="false" value="P3H2840=0"/>
 								</option>
 								<option id="com.crt.advproject.gcc.fpu.2040406325" name="Floating point" superClass="com.crt.advproject.gcc.fpu" useByScannerDiscovery="true" value="com.crt.advproject.gcc.fpu.none" valueType="enumerated"/>
 								<option id="com.crt.advproject.gcc.thumb.1512927301" name="Thumb mode" superClass="com.crt.advproject.gcc.thumb" useByScannerDiscovery="false" value="true" valueType="boolean"/>

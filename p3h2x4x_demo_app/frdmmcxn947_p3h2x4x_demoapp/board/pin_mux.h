@@ -42,6 +42,17 @@ void BOARD_InitPins(void);
 #endif
 
 /*!
+* @brief Configures pin routing and optionally pin electrical features.
+*
+*/
+void LPUART4_InitPins(void);
+/*!
+* @brief Configures pin routing and optionally pin electrical features.
+*
+*/
+void LPUART4_DeinitPins(void);
+
+/*!
  * @}
  */
 #endif /* _PIN_MUX_H_ */

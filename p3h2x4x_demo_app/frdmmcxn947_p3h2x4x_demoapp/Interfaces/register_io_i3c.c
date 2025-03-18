@@ -9,7 +9,7 @@
 /* ISSDK Includes */
 #include "issdk_hal.h"
 #include "register_io_i3c.h"
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 
 /*******************************************************************************
  * Types

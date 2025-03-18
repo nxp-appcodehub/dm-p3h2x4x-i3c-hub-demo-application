@@ -7,7 +7,7 @@
  */
 
 #include "fsl_common.h"
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 
 #ifndef NDEBUG
 #if (defined(__CC_ARM)) || (defined(__ARMCC_VERSION)) || (defined(__ICCARM__))

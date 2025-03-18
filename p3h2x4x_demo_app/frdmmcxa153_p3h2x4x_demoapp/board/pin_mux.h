@@ -41,37 +41,25 @@ void BOARD_InitPins(void);
  * @brief Configures pin routing and optionally pin electrical features.
  *
  */
-void LPI2C2_InitPins(void);
+void LPI3C_InitPins(void);
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
  */
-void LPI2C2_DeinitPins(void);
+void LPI3C_DeinitPins(void);
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
  */
-void LPSPI1_InitPins(void);
+void LPUART0_InitPins(void);
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
  */
-void LPSPI1_DeinitPins(void);
-
-/*!
- * @brief Configures pin routing and optionally pin electrical features.
- *
- */
-void LPUART4_InitPins(void);
-
-/*!
- * @brief Configures pin routing and optionally pin electrical features.
- *
- */
-void LPUART4_DeinitPins(void);
+void LPUART0_deinitPins(void);
 
 #if defined(__cplusplus)
 }

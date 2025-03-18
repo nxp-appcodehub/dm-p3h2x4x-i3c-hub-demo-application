@@ -8,12 +8,14 @@
 #include <P3H2x4x.h>
 #include <P3H2x4x_drv.h>
 #include <string.h>
+#include "hardware_init.h"
 /*  SDK Included Files */
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 #include "fsl_i3c.h"
+
 
 //-----------------------------------------------------------------------
 // CMSIS Includes
@@ -156,11 +158,10 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 #if (P3H2441 || P3H2841)
 		P3H2x41_config(P3H2x4xDriver);
 #endif
-		once_done = 1;
 
+		once_done = 1;
 	}
 	else{
-
 		if(once_done){
 
 			PRINTF("\r\n I3C Dynamic Address Assignment will occur!\r\n");
@@ -1351,27 +1352,21 @@ int main(void)
     uint8_t charecter;
     i3c_master_transfer_t masterXfer;
 
-    /* Attach FRO 12M to FLEXCOMM4 (debug console) */
-    CLOCK_SetClkDiv(kCLOCK_DivFlexcom4Clk, 1U);
-    CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
-
     /* Attach PLL0 clock to I3C, 150MHz / 6 = 25MHz. */
     CLOCK_SetClkDiv(kCLOCK_DivI3c1FClk, 6U);
     CLOCK_AttachClk(kPLL0_to_I3C1FCLK);
 
     /* enable clock for GPIO*/
     CLOCK_EnableClock(kCLOCK_Gpio0);
+    CLOCK_EnableClock(kCLOCK_Gpio1);
 
-    BOARD_InitBootClocks();
+    BOARD_InitHardware();
     BOARD_SystickEnable();
-    BOARD_InitPins();
-    BOARD_InitDebugConsole();
 
+reinitialise:
     P3H2x4x_Cp_sel_pin_init();
     P3H2x4x_Reset_Device(&P3H2x4xDriver);
     P3H2x4x_set_handle(&P3H2x4xDriver);
-
-reinitialise:
 
 #if SILICON_A0
 	/*Errata fix*/
@@ -1451,6 +1446,9 @@ reinitialise:
 					if(status == SENSOR_ERROR_NONE)
 					{
 						PRINTF("\r\n \033[32m Hub Interface Reset completed \033[37m \r\n");
+					}
+					else{
+						PRINTF("\r\n \033[32m Hub Interface Reset Failed \033[37m \r\n");
 					}
 					goto reinitialise;
 					break;

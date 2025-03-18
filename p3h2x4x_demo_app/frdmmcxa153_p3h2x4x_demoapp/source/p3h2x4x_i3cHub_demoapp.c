@@ -12,8 +12,9 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 #include "fsl_i3c.h"
+#include "hardware_init.h"
 
 //-----------------------------------------------------------------------
 // CMSIS Includes
@@ -157,7 +158,6 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 #if (P3H2441 || P3H2841)
 		P3H2x41_config(P3H2x4xDriver);
 #endif
-
 		once_done = 1;
 
 	}
@@ -193,6 +193,7 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 				return -1;
 			}
 			PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
+
 		}
 
 		else{
@@ -1359,18 +1360,17 @@ int main(void)
     CLOCK_SetClockDiv(kCLOCK_DivI3C0_FCLK, 2U);
     CLOCK_AttachClk(kFRO_HF_DIV_to_I3C0FCLK);
 
-    BOARD_InitPins();
+    BOARD_InitHardware();
     BOARD_BootClockFRO48M();
     BOARD_SystickEnable();
-    BOARD_InitDebugConsole();
 
     RESET_PeripheralReset(kI3C0_RST_SHIFT_RSTn);
 
+reinitialise:
     P3H2x4x_Cp_sel_pin_init();
     P3H2x4x_Reset_Device(&P3H2x4xDriver);
 	P3H2x4x_set_handle(&P3H2x4xDriver);
 	
-reinitialise:
 #if SILICON_A0
 	/*Errata fix*/
 	status = P3H2x4x_Initialize(&P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, STATIC_ADDR, 0);
@@ -1449,6 +1449,9 @@ reinitialise:
 					if(status == SENSOR_ERROR_NONE)
 					{
 						PRINTF("\r\n \033[32m Hub Interface Reset completed \033[37m \r\n");
+					}
+					else{
+						PRINTF("\r\n \033[32m Hub Interface Reset Failed \033[37m \r\n");
 					}
 					goto reinitialise;
 					break;

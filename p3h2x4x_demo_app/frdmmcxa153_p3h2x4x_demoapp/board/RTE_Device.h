@@ -15,7 +15,7 @@ extern void LPSPI1_InitPins();
 extern void LPSPI1_DeinitPins();
 
 extern void LPUART0_InitPins();
-extern void LPUART0_InitPins_deinit();
+extern void LPUART0_deinitPins();
 
 
 /* Driver name mapping. */
@@ -63,7 +63,7 @@ extern void LPUART0_InitPins_deinit();
 
 /* UART configuration. */
 #define RTE_USART0_PIN_INIT        LPUART0_InitPins
-#define RTE_USART0_PIN_DEINIT      LPUART0_InitPins_deinit
+#define RTE_USART0_PIN_DEINIT      LPUART0_deinitPins
 #define RTE_USART0_DMA_TX_CH       0
 #define RTE_USART0_DMA_TX_PERI_SEL (uint16_t) kDma0RequestLPUART0Tx
 #define RTE_USART0_DMA_TX_DMA_BASE DMA0

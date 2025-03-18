@@ -8,7 +8,7 @@
 #include <P3H2x4x_drv.h>
 #include "P3H2x4x_config.h"
 #include "pin_mux.h"
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 #include "fsl_i3c_cmsis.h"
 #include "register_io_i3c.h"
 #include "systick_utils.h"
@@ -234,7 +234,6 @@ int P3H2x4x_Errata_fix(D_P3H2x4x_Handle *P3H2x4xDriver){
 
     if (status != kStatus_Success)
     {
-        PRINTF("\r\nErrata fix failed\r\n");
         return -1;
     }
     return 0;
@@ -254,7 +253,6 @@ int32_t P3H2x4x_Initialize(D_P3H2x4x_Handle *pSensorHandle, ARM_DRIVER_I3C *pBus
 
 	if (ARM_DRIVER_OK != status)
 	{
-		PRINTF("\r\n I3C Initialization Failed\r\n");
 		return -1;
 	}
 
@@ -262,7 +260,6 @@ int32_t P3H2x4x_Initialize(D_P3H2x4x_Handle *pSensorHandle, ARM_DRIVER_I3C *pBus
 	status = pdriver->PowerControl(ARM_POWER_FULL);
 	if (ARM_DRIVER_OK != status)
 	{
-		PRINTF("\r\n Driver Power Mode setting Failed\r\n");
 		return -1;
 	}
 
@@ -989,7 +986,7 @@ static int P3H2x4x_Configure_tp(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configu
 		return ret;
 
 	ret = Register_I3C_Write(P3H2x4xDriver->pCommDrv, &P3H2x4xDriver->deviceInfo, P3H2x4xDriver->slaveAddress, I3C_HUB_ONCHIP_TD_AND_SMBUS_AGNT_CONF,
-			0x20, TARGET_AGENT_DFT_IBI_CONF_MASK, 0, P3H2x4xDriver->in_i3c_mode);    // 0x20
+			0x20, TARGET_AGENT_DFT_IBI_CONF_MASK, 0, P3H2x4xDriver->in_i3c_mode);
 	if (ret)
 		return ret;
 
@@ -1042,7 +1039,6 @@ int P3H2x41_config(D_P3H2x4x_Handle *P3H2x4xDriver){
 	 return 0;
 }
 
-
 int P3H2x4x_Configure(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configuration *i3c_hub_config)
 {
 	int ret;
@@ -1060,8 +1056,8 @@ int P3H2x4x_Configure(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configuration *i3
 		return ret;
 
 	ret = P3H2x4x_Configure_reset(P3H2x4xDriver, i3c_hub_config);
-		if (ret)
-			return ret;
+	if (ret)
+		return ret;
 
 	ret = P3H2x4x_Configure_tp(P3H2x4xDriver, i3c_hub_config);
 	if (ret)
@@ -1081,7 +1077,7 @@ int P3H2x4x_UnlockPrtcdReg(D_P3H2x4x_Handle *P3H2x4xDriver){
 
 	if (SENSOR_ERROR_NONE != status)
 	{
-		PRINTF("\r\n  Can not unlock protected regsiters  \r\n");
+		PRINTF("\r\n  Can not unlock protected registers  \r\n");
 		return -1;
 	}
 
@@ -1097,7 +1093,6 @@ int P3H2x4x_Interface_Reset(D_P3H2x4x_Handle *P3H2x4xDriver){
 										0x96, 0x00, 0, true);
 		if (SENSOR_ERROR_NONE != status)
 		{
-			PRINTF("\r\n Hub reset failed\r\n");
 			return -1;
 		}
 	}

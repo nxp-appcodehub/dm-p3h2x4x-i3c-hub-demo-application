@@ -291,15 +291,15 @@ int P3H2x4x_Dynamic_addr_assgmt_with_rest(uint8_t static_addr, uint8_t dynamic_a
  */
 int P3H2x4x_UnlockPrtcdReg(D_P3H2x4x_Handle *P3H2x4xDriver);
 
-/*! @brief       The interface function to use to configure P3H2x41 series.
- *  @return      ::P3H2x41_config() returns the status .
- */
-int P3H2x41_config(D_P3H2x4x_Handle *P3H2x4xDriver);
-
 /*! @brief       The interface function to reset the HUB.
  *  @return      ::P3T1085_I2C_Initialize() returns the status .
  */
 int P3H2x4x_Interface_Reset(D_P3H2x4x_Handle *P3H2x4xDriver);
+
+/*! @brief       The interface function to use to configure P3H2x41 series.
+ *  @return      ::P3H2x41_config() returns the status .
+ */
+int P3H2x41_config(D_P3H2x4x_Handle *P3H2x4xDriver);
 
 /*! @brief       This function is to reset the I3C target device.
  *  @return      ::P3H2x4x_P3H2x4x_Target_device_reset() returns the status .

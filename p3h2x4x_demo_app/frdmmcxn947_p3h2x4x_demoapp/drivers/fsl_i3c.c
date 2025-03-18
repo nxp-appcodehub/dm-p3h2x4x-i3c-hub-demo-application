@@ -10,7 +10,7 @@
 #endif
 #include <stdlib.h>
 #include <string.h>
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/

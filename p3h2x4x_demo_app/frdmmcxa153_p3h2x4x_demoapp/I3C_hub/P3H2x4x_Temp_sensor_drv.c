@@ -11,7 +11,7 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
-#include "fsl_debug_console.h"
+#include "fsl_debug_console_cmsis.h"
 #include "fsl_i3c.h"
 
 //-----------------------------------------------------------------------
@@ -117,7 +117,6 @@ int32_t P3T1755_GetTemp(D_P3H2x4x_Handle *P3H2x4xDriver, p3t1755_sensorhandle_t 
 
 		if (SENSOR_ERROR_NONE != result)
 		{
-			PRINTF("\r\n Temperature sensor read failed! \r\n");
 			return -1;
 		}
 	}
@@ -127,7 +126,6 @@ int32_t P3T1755_GetTemp(D_P3H2x4x_Handle *P3H2x4xDriver, p3t1755_sensorhandle_t 
 
 		if (SENSOR_ERROR_NONE != result)
 		{
-			PRINTF("\r\n Temperature sensor read failed! \r\n");
 			return -1;
 		}
 	}

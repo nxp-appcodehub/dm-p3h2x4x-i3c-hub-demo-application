@@ -45,18 +45,6 @@ status_t SMC_SetPowerModeVlpr(void *arg)
 }
 
 /*! @brief       Determines the Clock Frequency feature.
- *  @details     The Clock Frequecny computation API required by fsl_uart_cmsis.c.
- *  @param[in]   void
- *  @Constraints None
- *  @Reentrant   Yes
- *  @return      uint32_t Returns the clock frequency .
- */
-uint32_t LPUART0_GetFreq(void)
-{
-    return CLOCK_GetLpuartClkFreq(0u);
-}
-
-/*! @brief       Determines the Clock Frequency feature.
  *  @details     The Clock Frequecny computation API required by fsl_i2c_cmsis.c.
  *  @param[in]   void
  *  @Constraints None
