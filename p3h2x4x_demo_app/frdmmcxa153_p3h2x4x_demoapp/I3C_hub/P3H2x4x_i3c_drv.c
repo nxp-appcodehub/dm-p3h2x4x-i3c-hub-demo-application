@@ -998,12 +998,10 @@ static int P3H2x4x_Configure_tp(D_P3H2x4x_Handle *P3H2x4xDriver, I3C_Hub_Configu
 
 int P3H2x4x_Set_Cp_sel_pin(void){
 
-#if defined(P3H2441) || defined(P3H2841)
-	pGpioDriver->set_pin(&RST_PIN);
-
-#elif defined(P3H2840) || defined(P3H2440)
-	pGpioDriver->clr_pin(&RST_PIN);
-#endif
+	if((P3H2441)||(P3H2841))
+		pGpioDriver->set_pin(&RST_PIN);
+	else
+		pGpioDriver->clr_pin(&RST_PIN);
 
 	return 0;
 }

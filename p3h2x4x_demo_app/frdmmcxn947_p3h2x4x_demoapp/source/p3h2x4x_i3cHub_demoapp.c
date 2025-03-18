@@ -8,15 +8,13 @@
 #include <P3H2x4x.h>
 #include <P3H2x4x_drv.h>
 #include <string.h>
-#include "hardware_init.h"
 /*  SDK Included Files */
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "board.h"
 #include "fsl_debug_console_cmsis.h"
 #include "fsl_i3c.h"
-
-
+#include "hardware_init.h"
 //-----------------------------------------------------------------------
 // CMSIS Includes
 //-----------------------------------------------------------------------
@@ -155,9 +153,8 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 		}
 		PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
 
-#if (P3H2441 || P3H2841)
-		P3H2x41_config(P3H2x4xDriver);
-#endif
+		if((P3H2441) || (P3H2841))
+			P3H2x41_config(P3H2x4xDriver);
 
 		once_done = 1;
 	}
@@ -177,6 +174,16 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 
 			DYNAMIC_ADDR = hexValue;
 
+			if(SILICON_A0 == 0){
+
+				status = P3H2x4x_Initialize(P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, DYNAMIC_ADDR, 1);
+				if (SENSOR_ERROR_NONE != status)
+				{
+					PRINTF("\r\n P3H2840 I3C HUB Initialization Failed\r\n");
+					return -1;
+				}
+			}
+
 			status = P3H2x4x_Dynamic_addr_assgmt_without_rest(STATIC_ADDR, DYNAMIC_ADDR);
 			if (SENSOR_ERROR_NONE != status)
 			{
@@ -185,13 +192,16 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 			}
 			PRINTF("\r\nI3C dynamic address assigned to Hub\r\n");
 
-			status = P3H2x4x_Initialize(P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, DYNAMIC_ADDR, 1);
-			if (SENSOR_ERROR_NONE != status)
-			{
-				PRINTF("\r\n P3H2840 I3C HUB Initialization Failed\r\n");
-				return -1;
+			if(SILICON_A0 == 1){
+
+				status = P3H2x4x_Initialize(P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, DYNAMIC_ADDR, 1);
+				if (SENSOR_ERROR_NONE != status)
+				{
+					PRINTF("\r\n P3H2840 I3C HUB Initialization Failed\r\n");
+					return -1;
+				}
+				PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
 			}
-			PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
 		}
 
 		else{
@@ -209,6 +219,17 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 
 			DYNAMIC_ADDR = hexValue;
 
+			if(SILICON_A0 == 0){
+
+				status = P3H2x4x_Initialize(P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, DYNAMIC_ADDR, 1);
+				if (SENSOR_ERROR_NONE != status)
+				{
+					PRINTF("\r\n P3H2840 I3C HUB Initialization Failed\r\n");
+					return -1;
+				}
+				P3H2x4xDriver->ibi_info.is_ibi = false;
+			}
+
 			status = P3H2x4x_Dynamic_addr_assgmt_with_rest(STATIC_ADDR, DYNAMIC_ADDR);
 			if (SENSOR_ERROR_NONE != status)
 			{
@@ -217,14 +238,16 @@ int SetCntrlHubNw(D_P3H2x4x_Handle *P3H2x4xDriver, i3c_master_transfer_t *transf
 			}
 			PRINTF("\r\nI3C dynamic address assigned to Hub\r\n");
 
-			status = P3H2x4x_Initialize(P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, DYNAMIC_ADDR, 1);
-			if (SENSOR_ERROR_NONE != status)
-			{
-				PRINTF("\r\n P3H2840 I3C HUB Initialization Failed\r\n");
-				return -1;
-			}
-			PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
+			if(SILICON_A0 == 1){
 
+				status = P3H2x4x_Initialize(P3H2x4xDriver, &I3C_S_DRIVER, I3C_S_DEVICE_INDEX, DYNAMIC_ADDR, 1);
+				if (SENSOR_ERROR_NONE != status)
+				{
+					PRINTF("\r\n P3H2840 I3C HUB Initialization Failed\r\n");
+					return -1;
+				}
+				PRINTF("\r\n P3H2840 I3C HUB Initialization completed\r\n");
+			}
 			once_done = 1;
 		}
 	}
@@ -1358,7 +1381,6 @@ int main(void)
 
     /* enable clock for GPIO*/
     CLOCK_EnableClock(kCLOCK_Gpio0);
-    CLOCK_EnableClock(kCLOCK_Gpio1);
 
     BOARD_InitHardware();
     BOARD_SystickEnable();
@@ -1387,6 +1409,12 @@ reinitialise:
 	}
 	P3H2x4xDriver.isInitialized = false;
 #endif
+
+	if((P3H2840 + P3H2841 + P3H2440 + P3H2441) != 1){
+
+		PRINTF("\r\n \033[32m Select only one version of P3H2x4x Shield board. \033[37m \r\n");
+		return -1;
+	}
 
 	/*Set controller-hub network connection mode*/
 	status = SetCntrlHubNw(&P3H2x4xDriver, &masterXfer);
@@ -1446,15 +1474,15 @@ reinitialise:
 					if(status == SENSOR_ERROR_NONE)
 					{
 						PRINTF("\r\n \033[32m Hub Interface Reset completed \033[37m \r\n");
+						goto reinitialise;
 					}
 					else{
 						PRINTF("\r\n \033[32m Hub Interface Reset Failed \033[37m \r\n");
-					}
-					goto reinitialise;
+					}					
 					break;
 				case 5:
 					P3H2x4x_Reset_Device(&P3H2x4xDriver);
-					PRINTF("\r\n \033[32m device reset completed\033[37m \r\n");
+					PRINTF("\r\n \033[32m Device reset completed\033[37m \r\n");
 					goto reinitialise;
 					break;
 				default:

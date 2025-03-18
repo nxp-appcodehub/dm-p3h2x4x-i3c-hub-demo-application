@@ -9,9 +9,9 @@
 
 #include "register_io_i3c.h"
 
-#if defined(P3H2840) || defined(P3H2841)
+#if ((P3H2840) || (P3H2841))
 	#define I3C_HUB_TP_MAX_COUNT				0x08
-#elif defined(P3H2440) || defined(P3H2441)
+#elif ((P3H2440) || (P3H2441))
 	#define I3C_HUB_TP_MAX_COUNT				0x04
 #endif
 

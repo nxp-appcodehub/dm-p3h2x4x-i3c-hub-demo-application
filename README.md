@@ -37,7 +37,7 @@ Transmit/Receive Data buffers and SMBus agent control.
 1. [Hardware](#hardware)
 2. [Software](#Software)
 3. [Setup](#Setup)
-4. [Pre-Requisites](#Pre-Requisites)
+4. [Hardware reworks and connections](#Hardware-reworks-and-connections)
 5. [Application Overview and Test Results](#applications-overview-and-test-results)
 6. [Limitations](#Limitations) 
 7. [FAQs](#faqs) 
@@ -81,19 +81,48 @@ The needed hardware are:
 - Install MCXUpresso SDK 2.16.100 for FRDM-MCX947 or (drag and drop SDK zip into "Installed SDK" view) into MCUXpresso IDE.
 - Go to "Quickstart Panel" and click on "Import Project(s) from file system".
 - Select "Project directory (unpacked)" and browse to the cloned project folder.
+
+### 3.4 Step 4: Set Software configurations 
+- **Before building the project, set the below softare configurations:-** 
+
+1. Make sure to enable "SILICON_A0" macro in the demo application properties for selecting the AO version of P3H2x4x device and disable "SILICON_A0" macro for "REV B0" version. 
+
+    [<img src="./images/image30.jpg" width="400"/>](image30.jpg)
+
+    [<img src="./images/image31.png" width="400"/>](image31.png)
+
+2. Make sure to add "P3H2840", "P3H2841", "P3H2440", "P3H2441" Macros in the application properties and enable the respective board which you are using for testing and disable the rest other varients. 
+
+    [<img src="./images/image32.png" width="400"/>](image32.png)
+
+3. If user wants to change the default configurations, Open the demo application, 
+In I3C Hub folder, select "P3H2x4x_config.h" file and change the Macros as per choice.
+
+    [<img src="./images/image24.png" width="400"/>](image24.png)
+
+4. To configure the Pull up, LDOs and IO-strengths of target and controller ports, use macros in "P3H2x4x_config.h" file.
+
+    [<img src="./images/image29.png" width="400"/>](image29.png)
+
+5. To test IBI feature, Disable Hub network connections from 'P3H2x4x_config.h" file in case of "SILICON_A0" only and enable the IBI for respective target port to which an external controller is connected for irrespective of Silicon version.  
+
+    [<img src="./images/image26.PNG" width="400"/>](image26.PNG)
+
+    [<img src="./images/image25.png" width="400"/>](image25.png)
+
 - Select an example project and run.
 - Right click on project and select build to start building the project.
 
-## 4. Hardware Reworks and Pre-Requisites<a name=" Pre-Requisites"></a>
+## 4. Hardware Reworks and Connections<a name=" Pre-Requisites"></a>
 
-There are some pre-requisites for the I3C hub which need to be kept in mind while using the application:
+There are some pre-requisites for the Hardware which need to be kept in mind while using the application:
 
 1. Rework needs to be done in both MCXA153 and MCXN947 baseboard for I3C protocol.
-  * MCXA153- external add on jumper on baseboard ie., J20 and J21.
-  
+  * MCXA153- Add external jumper on baseboard on J20 and J21 to connect SDA and SCL line of shield board.  
+
     [<img src="./images/image14.PNG" width="400"/>](image14.PNG)
 
-  * MCXN947- Shorting of 2-3 pins of SJ14 and SJ15 
+  * MCXN947- Shorting of 2-3 on SJ14 and SJ15 to enable I3C connection.
   
     [<img src="./images/image15.png" width="400"/>](image15.png)
 
@@ -103,7 +132,7 @@ There are some pre-requisites for the I3C hub which need to be kept in mind whil
 
     [<img src="./images/image9.png" width="400"/>](image9.png)
 
-3. For our demo setup, Configurations for target ports in "P3H2x4x_config.h" file are as per below:
+3. For our demo setup, Default Configurations for target ports in "P3H2x4x_config.h" file are as per below:
 
    * Target port(TP 0), On die temperature sensor, is configrued in SMBUS mode
 
@@ -133,32 +162,9 @@ There are some pre-requisites for the I3C hub which need to be kept in mind whil
    
       [<img src="./images/image20.png" width="400"/>](image20.png)
 
-4. If user wants to change the default configurations, Open the demo application, 
-In I3C Hub folder, select "P3H2x4x_config.h" file and change the Macros as per choice.
+4. On shield board (P3H2x4x), make sure to keep the J34 and J20 jumper pins OPEN and SHORT the J35 jumper pin. 
 
-    [<img src="./images/image24.png" width="400"/>](image24.png)
-
-5. To configure the Pull up, LDOs and IO-strengths of target and controller ports, use macros in "P3H2x4x_config.h" file.
-
-    [<img src="./images/image29.png" width="400"/>](image29.png)
-
-6. To test IBI feature, Disable Hub network connections from 'P3H2x4x_config.h" file and enable the IBI for respective target port to which an external controller is connected.  
-
-    [<img src="./images/image26.PNG" width="400"/>](image26.PNG)
-
-    [<img src="./images/image25.png" width="400"/>](image25.png)
-
-7. On shield board (P3H2x4x), make sure to keep the J34 and J20 jumper pins OPEN and SHORT the J35 jumper pin. 
-
-8. Make sure to enable "SILICON_A0" macro in the demo application properties for selecting the AO version of P3H2x4x device.
-
-    [<img src="./images/image31.png" width="400"/>](image31.png)
-
-9. Make sure to add "P3H2840", "P3H2841", "P3H2440", "P3H2441" Macros in the application properties and enable the respective board which you are using for testing and disable the rest other varients. 
-
-    [<img src="./images/image32.png" width="400"/>](image32.png)
-
-10. In P3H2441 and P3H2841 series of shield boards, CP1 should be selected
+5. In P3H2441 and P3H2841 series of shield boards, CP1 should be selected
 by shorting 2-3 pins of JP9 & JP10 and JP2 & JP3 should be kept open. 
 
 ## 5.Applications overview and test results<a name="applications-overview-and-test-results"></a>
@@ -297,4 +303,4 @@ Questions regarding the content/correctness of this example can be entered as is
 | Version | Description / Update                           | Date                        |
 |:-------:|------------------------------------------------|----------------------------:|
 | 1.0     | Initial release on Application Code Hub        | Febuary 6<sup>th</sup> 2025 |
-|
+| 2.0     | Provided Bug Fixes, P3H2x4x Rev B0 Support and made UART CMSIS compliant     | March 19<sup>th</sup> 2025 |

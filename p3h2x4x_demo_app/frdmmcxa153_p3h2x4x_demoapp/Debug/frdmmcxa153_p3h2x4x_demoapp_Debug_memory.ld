@@ -2,11 +2,11 @@
  * GENERATED FILE - DO NOT EDIT
  * Copyright 2008-2013 Code Red Technologies Ltd,
  * Copyright 2013-2025 NXP
- * SPDX-License-Identifier: BSD-3-Clause
  * Generated linker script file for MCXA153
+ * SPDX-License-Identifier: BSD-3-Clause
  * Created from memory.ldt by FMCreateLinkMemory
  * Using Freemarker v2.3.30
- * MCUXpresso IDE v11.9.0 [Build 2144] [2024-01-05] on 18-Mar-2025, 4:02:11 pm
+ * MCUXpresso IDE v11.9.0 [Build 2144] [2024-01-05] on 18-Mar-2025, 2:05:00 pm
  */
 
 MEMORY

@@ -1,7 +1,7 @@
 NXP Software Content Register
 
 Name: dm-p3h2x4x-i3c-hub-demo-application
-Version: 1.0
+Version: 2.0
 Outgoing License: BSD-3-Clause
 License File: LICENSE.txt
 Description: This example provides CMSIS Compliant APIs to configure P3H2x4x I3C Hub for FRDM-MCXN947 and FRDM-MCXA153.
