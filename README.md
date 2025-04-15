@@ -227,6 +227,7 @@ Note: Make sure, Controller-hub network is I3C.
 
 **Enter #1 for testing on die temperature sensor in Smbus mode on target port 0** 
 
+Note: Default address of on-board temperature sensor is "0x4C". For more details, refer datasheet and schematics of P3T1755DP. 
 - Enter #1 to select port 0.
 - Enter #1 to select smbus mode.
 - Read/write temperature sensor as per choice.

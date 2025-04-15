@@ -24,6 +24,7 @@ Sno.	P3H2x4x  		MCXN153
 2	J5- pin 10 - SCL	J21
 3	J4- pin 4 - VCC		J3 - pin 8
 4	J4- pin 6 - GND		J3 - pin 12
+5       J5- pin 1 - CP-RST	J2 - pin 2
 
 Pre-requisites before testing the application
 

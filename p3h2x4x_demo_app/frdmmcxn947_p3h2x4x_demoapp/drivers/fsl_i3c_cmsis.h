@@ -25,7 +25,7 @@ extern ARM_DRIVER_I3C Driver_I3C;
 #define EXAMPLE_MASTER                  I3C1
 #define EXAMPLE_I2C_BAUDRATE            100000
 #define EXAMPLE_I3C_OD_BAUDRATE         625000
-#define EXAMPLE_I3C_PP_BAUDRATE         400000
+#define EXAMPLE_I3C_PP_BAUDRATE         1250000
 #define I3C_MASTER_CLOCK_FREQUENCY      CLOCK_GetI3cClkFreq(1U)
 #define WAIT_TIME                       100000
 #define EXAMPLE_I3C_HDR_SUPPORT         0
